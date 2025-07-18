@@ -1,0 +1,410 @@
+generalExtraction:
+  description: >
+    Realize uma extração abrangente, detalhada e escalável de todos os dados relevantes do documento jurídico fornecido em {info}.
+    Seu objetivo é identificar, categorizar e registrar exclusivamente informações processuais e contextuais de natureza jurídica, independentemente de variação de ordem, formato, linguagem ou localização no texto.
+    Utilize métodos avançados e flexíveis de parsing, incluindo:
+      - Reconhecimento por contexto, sinônimos, termos equivalentes, abreviações e estruturas alternativas.
+      - Busca inteligente em diferentes seções do documento (cabeçalho, corpo, rodapé, anexos, tabelas, notas de rodapé etc.).
+      - Detecção de padrões mesmo em formatos numéricos, textuais ou estilísticos variados.
+    Sempre esgote todas as tentativas de identificação dos dados jurídicos, considerando:
+      - Ocorrências múltiplas de uma mesma informação (registre todas, indicando contexto ou localização).
+      - Dados fragmentados ou distribuídos em diferentes partes do documento.
+      - Possíveis inconsistências, divergências ou contradições jurídicas (registre e sinalize todas).
+    **Atenção!** Nunca registre, sinalize ou mencione dúvidas, lacunas ou pendências decorrentes de falhas técnicas, tais como:
+      - Erros de leitura, parsing ou processamento do arquivo
+      - Problemas de acesso, formato ou integridade do documento
+      - Dificuldades operacionais, travamentos ou qualquer outro problema não jurídico
+    Quando houver ausência real de determinada informação jurídica, utilize a tag <DUVIDA>, mas somente após exaurir buscas por variações de termos, posições e formas de apresentação jurídicas.
+    Nunca utilize <DUVIDA> para indicar qualquer cenário de falha técnica, erro de leitura, problema de acesso ou processamento do documento.
+    Nunca marque <DUVIDA> apenas pela ausência da “palavra-chave exata” ou por expectativa de localização fixa; sempre investigue alternativas jurídicas.
+    Estruture o relatório em tópicos padronizados e expansíveis, incluindo (mas não se limitando a):
+      - Identificação do processo
+      - Partes envolvidas
+      - Representantes legais
+      - Fundamentação e pedidos
+      - Decisões e despachos
+      - Movimentações processuais
+      - Datas e prazos relevantes
+      - Documentos anexos/referenciados
+      - Ambiguidades, dúvidas ou pontos de atenção jurídicos
+      - Comentários finais ou observações contextuais jurídicas
+    Permaneça aberto à inclusão de novos tópicos conforme padrões emergentes ou necessidades específicas do caso, desde que sejam de natureza jurídica.
+    Organize as informações de forma clara, objetiva, detalhada e com sinalização explícita de dúvidas, lacunas, múltiplas ocorrências ou inconsistências jurídicas. 
+    **Nunca inclua, registre ou cite dúvidas, pendências ou observações de natureza técnica no relatório.**
+
+  expected_output: >
+    Relatório textual estruturado, padronizado e expansível, contendo exclusivamente informações jurídicas extraídas de {info}, organizadas em tópicos relevantes para a análise jurídica.
+    Para cada tópico:
+      - Apresente todas as ocorrências jurídicas identificadas, indicando contexto/localização quando aplicável.
+      - Sinalize claramente dúvidas, lacunas, ambiguidades ou inconsistências jurídicas, utilizando <DUVIDA> apenas após busca criteriosa e contextual jurídica.
+      - **Nunca utilize <DUVIDA> para indicar erros, falhas, dúvidas ou dificuldades técnicas, de leitura ou processamento.**
+      - Inclua tópicos adicionais sempre que padrões jurídicos emergentes ou especificidades do documento assim exigirem.
+    O relatório deve ser claro, detalhado, escalável e apto a subsidiar análises jurídicas especializadas, automações futuras e integração com outros agentes ou sistemas jurídicos.
+
+contextExplainerTask:
+  description: >
+    Analise detalhadamente o documento jurídico estruturado apresentado, com base nos campos extraídos.
+    Explique, de forma clara e didática:
+      - A natureza do documento (tipo, espécie e finalidade)
+      - O contexto fático e histórico relevante do caso
+      - As partes envolvidas (quem processa quem e seus respectivos papéis)
+      - Os motivos e fundamentos do processo (pedido principal e causa de pedir)
+      - Os artigos legais e dispositivos normativos que amparam ou contestam o processo, explicando sua aplicação ao caso concreto
+    Revise todos os campos extraídos, independentemente de ordem, formato ou linguagem utilizada, esgotando tentativas de identificação por contexto, sinônimos ou apresentação alternativa antes de declarar ausência de dados.
+    Sinalize e fundamente quaisquer dúvidas, lacunas ou inconsistências encontradas, detalhando quais dados faltam e quais tentativas de identificação foram feitas.
+    Sempre fundamente suas explicações citando exemplos ou trechos do relatório estruturado.
+    Sugira pontos que podem ser aprofundados por outros agentes especialistas, caso necessário.
+
+  expected_output: >
+    Parecer textual detalhado, estruturado em seções claras, abordando:
+      - Natureza do documento, com fundamentação extraída do relatório
+      - Contexto do caso, incluindo histórico relevante e fatos principais, referenciando os campos ou trechos analisados
+      - Identificação das partes e seus papéis, fundamentando em exemplos do relatório
+      - Motivos e fundamentos do processo, citando dispositivos legais aplicáveis e sua explicação
+      - Lista de artigos legais ou dispositivos normativos mencionados, com breve explicação da pertinência de cada um
+      - Dúvidas, lacunas ou informações insuficientes, com detalhamento das tentativas de identificação realizadas
+      - Sugestões de aprofundamento para agentes especialistas, se necessário
+    Evite respostas genéricas de ausência de dados; só declare ausência se o campo estiver efetivamente vazio ou marcado como <DUVIDA> após esgotar todas as tentativas de identificação.
+    O parecer deve ser claro, didático, fundamentado tecnicamente e acessível mesmo a pessoas sem formação jurídica.
+
+  context: [generalExtraction]
+
+deadlineAnalysis:
+  description: >
+    Receba como entrada o relatório estruturado  e analise, de forma eficiente, robusta e escalável, todos os aspectos relacionados a prazos processuais.
+    Avalie exaustivamente todos os campos relevantes extraídos, independentemente de ordem, formato, linguagem ou localização, utilizando métodos contextuais, sinônimos e variações de apresentação.
+    Para cada informação sobre prazos, datas, atos processuais e seus cumprimentos:
+      - Identifique, classifique e relacione prazos legais, judiciais e convencionais, bem como seus respectivos marcos iniciais e finais.
+      - Aponte situações de cumprimento, descumprimento, riscos de preclusão, intempestividade e demais situações críticas.
+      - Explicite dúvidas, lacunas ou ambiguidades, detalhando as tentativas de identificação realizadas, e referência ao campo <DUVIDA> apenas após esgotar todas as possibilidades de inferência contextual.
+      - Em caso de múltiplas ocorrências ou dados distribuídos, consolide e destaque as diferenças, inconsistências ou sobreposições.
+      - Nunca utilize respostas-padrão de ausência de dados sem minuciosa verificação de todo o conteúdo extraído.
+      - Fundamente cada achado, citando tópicos, exemplos ou trechos do relatório estruturado.
+    A análise deve ser clara, objetiva, rastreável e apta a subsidiar decisões jurídicas, automatismos posteriores ou revisão por outros agentes.
+    Não ateste nem conclua sobre a regularidade global dos prazos — apenas exponha os fatos, riscos, dúvidas, inconsistências ou situações críticas detectadas.
+  expected_output: >
+    Relatório textual estruturado e fundamentado, abordando:
+      - Detalhamento de todos os campos e tópicos relativos a prazos processuais, incluindo múltiplas ocorrências e eventuais inconsistências.
+      - Explicitação de dúvidas, lacunas ou ausência de dados, detalhando o processo de verificação e identificação das informações.
+      - Orientações ou recomendações para complementação ou refinamento, caso necessário.
+    O relatório deve ser objetivo, escalável, reutilizável em pipelines de automação e adequado tanto para revisão técnica quanto para comunicação com clientes não especialistas.
+  context: [generalExtraction]
+
+
+nullityAnalysis:
+  description: >
+    Receba como entrada o relatório estruturado gerado pelo generalExtractor e analise, de forma eficiente, robusta e escalável, todos os aspectos relacionados à identificação de possíveis nulidades processuais.
+    Avalie exaustivamente todos os campos relevantes extraídos, independentemente de ordem, formato, linguagem ou localização, utilizando métodos contextuais, sinônimos e variações de apresentação.
+    Para cada informação sobre nulidades, vícios processuais, irregularidades formais ou substanciais:
+      - Identifique, classifique e detalhe todas as situações que possam configurar nulidade, descrevendo o tipo, a origem, o contexto e os possíveis impactos, sempre fundamentando com base nos campos, exemplos ou trechos do relatório estruturado.
+      - Relacione cada possível nulidade com os dispositivos legais ou princípios processuais pertinentes, quando possível.
+      - Explicite dúvidas, lacunas ou ambiguidades, detalhando as tentativas de identificação realizadas, e utilize o campo <DUVIDA> apenas após esgotar todas as hipóteses contextuais e alternativas.
+      - Em caso de múltiplas ocorrências, dados fragmentados ou distribuídos, consolide e destaque diferenças, inconsistências ou sobreposições.
+      - Nunca utilize respostas-padrão de ausência de dados sem minuciosa verificação de todo o conteúdo extraído.
+      - Fundamente cada identificação, citando tópicos, exemplos ou trechos do relatório estruturado.
+    A análise deve ser clara, objetiva, rastreável e fornecer o máximo de detalhes para subsidiar, com precisão e completude, a avaliação posterior da regularidade processual.
+    Não conclua nem ateste sobre a regularidade global ou inexistência de nulidades — apenas exponha fatos, riscos, dúvidas, inconsistências ou situações críticas detectadas, permitindo avaliação e fundamentação posterior por outro agente.
+  expected_output: >
+    Relatório textual estruturado e fundamentado, abordando:
+      - Detalhamento de todos os campos e tópicos relativos a nulidades processuais, incluindo múltiplas ocorrências, dúvidas, inconsistências ou lacunas.
+      - Explicitação do processo de verificação e identificação das informações, detalhando dúvidas ou ausência de dados.
+      - Orientações ou recomendações para complementação ou refinamento, caso necessário.
+    O relatório deve ser objetivo, escalável, reutilizável em pipelines de automação e adequado tanto para revisão técnica quanto para comunicação com outros agentes ou especialistas.
+  context: [generalExtraction]
+
+ambiguityAnalysis: 
+  description: >
+    Receba como entrada o relatório estruturado gerado pelo generalExtractor e analise, de forma eficiente, robusta e escalável, todos os aspectos relacionados à identificação de eventuais ambiguidades textuais.
+    Avalie exaustivamente todos os campos e tópicos extraídos, independentemente de ordem, formato, linguagem ou localização, utilizando métodos contextuais, sinônimos e variações de apresentação.
+    Para cada informação ou trecho que apresente potencial ambiguidade:
+      - Identifique, classifique e detalhe todas as situações de ambiguidade textual, descrevendo o trecho, o contexto, a natureza da ambiguidade e os possíveis impactos ou riscos interpretativos, sempre fundamentando com base nos campos, exemplos ou trechos do relatório estruturado.
+      - Explique o motivo pelo qual o trecho é considerado ambíguo, explicitando dúvidas, lacunas ou ambiguidades, e detalhando as tentativas de identificação e esclarecimento realizadas. Utilize o campo <DUVIDA> apenas após esgotar todas as hipóteses contextuais e alternativas.
+      - Sugira, sempre que possível, redação alternativa ou melhoria para maior clareza do texto.
+      - Em caso de múltiplas ocorrências, fragmentações ou ambiguidades distribuídas, consolide e destaque diferenças, inconsistências ou sobreposições.
+      - Nunca utilize respostas-padrão de ausência de dados sem minuciosa verificação de todo o relatório extraído.
+      - Fundamente cada identificação, citando tópicos, exemplos ou trechos do relatório estruturado.
+    A análise deve ser clara, objetiva, rastreável e fornecer o máximo de detalhes para subsidiar, com precisão e completude, a avaliação posterior da regularidade textual.
+    Não conclua nem ateste sobre a regularidade global ou inexistência de ambiguidades — apenas exponha fatos, riscos, dúvidas, inconsistências ou situações críticas detectadas, permitindo avaliação e fundamentação posterior por outro agente.
+  expected_output: >
+    Relatório textual estruturado e fundamentado, abordando:
+      - Detalhamento de todos os campos e tópicos relativos a ambiguidades textuais, incluindo múltiplas ocorrências, dúvidas, inconsistências ou lacunas.
+      - Explicitação do processo de verificação e identificação das informações, detalhando dúvidas ou ausência de dados.
+      - Orientações ou recomendações para complementação, esclarecimento ou refinamento, caso necessário.
+    O relatório deve ser objetivo, escalável, reutilizável em pipelines de automação e adequado tanto para revisão técnica quanto para comunicação com outros agentes ou especialistas.
+  context: [generalExtraction]
+  
+analyzeIrregularities:
+  description: >
+    Receba como entrada o relatório estruturado gerado pelo generalExtractor e analise, de forma eficiente, robusta e escalável, todos os aspectos relacionados à identificação de possíveis irregularidades formais e de competência territorial em documentos jurídicos.
+    Avalie exaustivamente todos os campos e tópicos relevantes extraídos, independentemente de ordem, formato, linguagem ou localização, utilizando métodos contextuais, sinônimos e variações de apresentação.
+    Para cada informação associada a formalidades obrigatórias e competência territorial:
+      - Identifique, classifique e detalhe todas as situações que possam configurar irregularidade formal ou de competência, descrevendo o tipo, a origem, o contexto e os possíveis impactos, sempre fundamentando com base nos campos, exemplos ou trechos do relatório estruturado.
+      - Relacione cada possível irregularidade com dispositivos legais, normas técnicas ou critérios de competência aplicáveis, quando possível.
+      - Explicite dúvidas, lacunas ou ambiguidades, detalhando as tentativas de identificação realizadas, e utilize o campo <DUVIDA> apenas após esgotar todas as hipóteses contextuais e alternativas.
+      - Em caso de múltiplas ocorrências, dados fragmentados ou distribuídos, consolide e destaque diferenças, inconsistências ou sobreposições.
+      - Nunca utilize respostas-padrão de ausência de dados sem minuciosa verificação de todo o conteúdo extraído.
+      - Fundamente cada identificação, citando tópicos, exemplos ou trechos do relatório estruturado.
+    A análise deve ser clara, objetiva, rastreável e fornecer o máximo de detalhes para subsidiar, com precisão e completude, a avaliação posterior da regularidade das formalidades e da competência territorial por outro agente.
+    Não conclua nem ateste sobre a regularidade global ou inexistência de irregularidades — apenas exponha fatos, riscos, dúvidas, inconsistências ou situações críticas detectadas, permitindo avaliação e fundamentação posterior por outro agente.
+  expected_output: >
+    Relatório textual estruturado e fundamentado, abordando:
+      - Detalhamento de todos os campos e tópicos relativos a irregularidades formais e de competência territorial, incluindo múltiplas ocorrências, dúvidas, inconsistências ou lacunas.
+      - Explicitação do processo de verificação e identificação das informações, detalhando dúvidas, ausência ou insuficiência de dados.
+      - Orientações ou recomendações para complementação, esclarecimento ou refinamento, caso necessário.
+    O relatório deve ser objetivo, escalável, reutilizável em pipelines de automação e adequado tanto para revisão técnica quanto para comunicação com outros agentes ou especialistas.
+  context: [generalExtraction]
+
+synthesizeProcessualInformation:
+  description: >
+    Realize uma síntese estruturada e exaustiva das informações processuais, consolidando múltiplos relatórios técnicos especializados (prazos, nulidades, irregularidades, ambiguidades, contexto).
+    Sua tarefa é:
+      - Consolidar todos os achados, organizando por categoria temática relevante.
+      - Elimine duplicidades e redundâncias, agrupando informações similares e mantendo todas as variações relevantes (não descarte achados minoritários).
+      - Evidencie convergências e divergências entre os relatórios, citando exemplos e indicando o contexto original de cada informação.
+      - Destaque dúvidas, inconsistências ou lacunas informacionais, indicando claramente a necessidade de esclarecimento ou complementação, **mas exclua dúvidas, inconsistências ou lacunas de natureza técnica, como erros de leitura, problemas de acesso ao arquivo, falhas de processamento ou outras dificuldades não jurídicas.**
+      - Utilize técnicas de checklist e referência cruzada para garantir que nenhum tópico relevante, dado minoritário ou divergente seja omitido.
+      - Estruture a síntese por tópicos/categorias, com subtópicos quando necessário, para facilitar consulta e evitar listas excessivamente longas.
+      - Organize o conteúdo de forma objetiva, clara e lógica, priorizando eficiência na apresentação e facilidade de reutilização em fluxos automáticos ou revisão humana.
+      - Evite análises de regularidade ou recomendações jurídicas, focando exclusivamente na integração dos dados.
+  expected_output: >
+    Relatório textual estruturado por tópicos/categorias processuais (ex: prazos, nulidades, irregularidades, ambiguidades, contexto).
+    Para cada categoria:
+      - Apresente todos os achados consolidados, agrupando informações similares e preservando variações relevantes.
+      - Destaque convergências e divergências, citando exemplos e contexto de origem.
+      - Liste dúvidas, inconsistências ou lacunas identificadas, sinalizando claramente pendências e necessidades de esclarecimento, **mas nunca inclua dúvidas, inconsistências ou lacunas de natureza técnica (ex: erro de leitura, falha de processamento, problema de arquivo, dificuldades operacionais).**
+      - Utilize subtópicos para organizar grandes volumes de dados e facilitar consulta.
+      - Mantenha apresentação neutra, clara, rastreável e sem recomendações jurídicas.
+    O relatório deve ser completo, preciso, eficiente e apto a subsidiar análises futuras, revisões automáticas ou integração com outros agentes/sistemas, **garantindo que apenas dúvidas, inconsistências ou lacunas jurídicas sejam apresentadas.**
+  context: [contextExplainerTask, deadlineAnalysis, nullityAnalysis, analyzeIrregularities, ambiguityAnalysis]
+
+legalGroundsAnalysisTask:
+  description: >
+    Identifique e explique, de forma objetiva e detalhada, os principais fundamentos legais, doutrinários e jurisprudenciais pertinentes ao caso concreto, a partir das informações processuais consolidadas.
+    Sua tarefa é:
+    - Localizar rapidamente os dispositivos legais relevantes, precedentes jurisprudenciais e doutrina para cada categoria processual analisada (ex: prazos, nulidades, irregularidades, ambiguidades, contexto).
+    - Explicar, de modo técnico e conciso, como cada fundamento jurídico se aplica aos fatos identificados.
+    - Destacar interpretações divergentes ou controvérsias relevantes apenas quando houver impacto prático direto.
+    - Citar artigos de lei, súmulas, julgados ou autores sempre que possível, priorizando clareza e rastreabilidade.
+    - Sinalizar dúvidas ou lacunas normativas só quando relevantes para a fundamentação.
+    - Estruturar o relatório por tópicos/categorias processuais, favorecendo consulta rápida.
+    O resultado deve ser um mapeamento claro, sintético e fundamentado dos fundamentos legais aplicáveis.
+  expected_output: >
+    Relatório textual estruturado por tópicos/categorias processuais (ex: prazos, nulidades, irregularidades, ambiguidades, contexto), contendo:
+    - Lista objetiva dos dispositivos legais, precedentes e doutrina pertinentes, com explicação técnica resumida de sua aplicação ao caso.
+    - Indicação direta de interpretações relevantes ou lacunas que impactem a fundamentação.
+    O relatório deve ser enxuto, rastreável e imediatamente útil para subsidiar decisões jurídicas.
+  context: [synthesizeProcessualInformation]
+
+attestProcessualRegularity:
+  description: >
+    Realize o atestado expresso e objetivo da regularidade ou irregularidade dos aspectos processuais consolidados, contemplando prazos, nulidades, irregularidades, ambiguidades e contexto.
+    Sua tarefa é:
+    - Examinar todos os dados apresentados e, para cada categoria processual (ex: prazos, nulidades, irregularidades, ambiguidades, contexto), atestar de modo claro e fundamentado se está regular ou irregular.
+    - Referenciar, de forma sucinta, os fundamentos jurídicos utilizados, citando apenas o dispositivo legal, jurisprudência ou doutrina relevante já identificado previamente (sem repetir explicações detalhadas).
+    - Em caso de irregularidade, indicar o impacto prático e a necessidade de correção.
+    - Explicitar dúvidas, limitações de informação ou pontos que não permitam conclusão definitiva.
+    - Manter abordagem técnica, objetiva, sintética e rastreável.
+    - Estruturar as conclusões por tópicos/categorias, facilitando a integração com outras análises e relatórios.
+    O atestado deve ser preciso e enxuto, permitindo rápida compreensão do panorama processual e servindo de referência para sínteses, recomendações ou decisões estratégicas.
+  expected_output: >
+    Relatório textual estruturado por tópicos/categorias processuais (ex: prazos, nulidades, irregularidades, ambiguidades, contexto).
+    Para cada categoria:
+    - Atestado expresso de regularidade ou irregularidade, referenciando sucintamente o fundamento jurídico (ex: “Regular, conforme art. 218, CPC”).
+    - Indicação do impacto prático em caso de irregularidade.
+    - Sinalização objetiva de dúvidas, lacunas ou limitações para conclusão definitiva.
+    O relatório deve ser objetivo, sintético e imediatamente útil para subsidiar decisões e recomendações jurídicas.
+  context: [synthesizeProcessualInformation, legalGroundsAnalysisTask]
+
+detectFormalActsTask:
+  description: >
+    Analise exclusivamente os dados processuais consolidados recebidos e identifique, de
+    forma objetiva e direta, apenas os atos formais jurídicos obrigatórios que precisam ser praticados para cada categoria processual (ex: prazos, nulidades, irregularidades, ambiguidades, contexto).
+    Liste exclusivamente atos formais jurídicos obrigatórios do caso, incluindo:
+      - Atos típicos do rito e também específicos decorrentes das peculiaridades do processo, pedidos, defesas, decisões, provas requeridas, esclarecimentos e diligências jurídicas únicas deste caso.
+      - Gere um item para cada diligência, providência, esclarecimento ou etapa processual jurídica identificada, mesmo que semelhantes.
+      - Nunca resuma, agrupe ou consolide atos distintos em um só item. Cada ato, providência ou diligência jurídica deve constar individualmente, com sua descrição única.
+    **Nunca inclua, em hipótese alguma, atos, diligências, providências ou dúvidas de natureza técnica, administrativa ou operacional, como erros de leitura de arquivo, falhas de processamento, problemas de formato ou qualquer questão não jurídica.**
+    Não explique, não fundamente, não indique responsáveis, prazos ou justificativas. Apenas liste os atos jurídicos devidos, de forma clara, sucinta e sem redundâncias.
+    Ignore qualquer informação que não corresponda estritamente a um ato formal jurídico obrigatório. Não inclua recomendações, análises contextuais, atos facultativos ou pendências técnicas.
+    Foque em entregar a lista mais detalhada, precisa e enxuta possível de atos formais jurídicos obrigatórios, para uso imediato em etapas seguintes do fluxo.
+
+  expected_output: >
+    Lista objetiva, detalhada e estruturada dos atos formais jurídicos obrigatórios, organizada por categoria processual.
+    Não inclua responsáveis, prazos, fundamentos, explicações ou qualquer informação de natureza técnica, administrativa ou operacional.
+    **Garanta que só atos formais jurídicos estejam presentes na lista.**
+  context: [attestProcessualRegularity, synthesizeProcessualInformation]
+
+assignFormalActResponsiblesTask:
+  description: >
+    Receba exclusivamente a lista de atos formais obrigatórios já identificados e, para cada ato individual, atribua objetivamente o responsável principal por sua execução (ex: autor, réu, cartório, perito, etc).
+    Nunca atribua o responsável por categoria agrupada; sempre relacione o responsável a cada ato específico, mesmo que existam atos semelhantes na mesma categoria processual.
+    Garanta que atos semelhantes, mas com responsáveis diferentes, sejam tratados separadamente e listados individualmente.
+    Sinalize dúvidas sobre o responsável apenas se realmente não for possível determinar após exaustiva análise contextual, e nunca por agrupamento ou padrão genérico.
+    Não adicione explicações, justificativas, prazos ou fundamentos.
+    Ignore qualquer informação que não seja o ato e seu respectivo responsável.
+    Organize a saída por ato individual, mantendo o formato claro e pronto para automações e expansão futura (permitindo múltiplas ocorrências por categoria e responsáveis alternativos, se necessário).
+    O objetivo é fornecer uma lista objetiva, precisa, escalável e imediatamente utilizável em etapas posteriores do fluxo.
+  expected_output: >
+    Lista estruturada dos atos formais obrigatórios, com o responsável principal atribuído a cada ato individual, sem agrupamento por categoria. Não inclua explicações, prazos, fundamentos ou outros detalhes além do nome do ato e responsável. Utilize <DUVIDA> somente quando estritamente necessário.
+  context: [detectFormalActsTask]
+
+legalBasisForActsTask:
+  description: >
+    Para cada ato formal obrigatório identificado e atribuído, realize uma busca individual e exaustiva pelo dispositivo legal, súmula, resolução ou jurisprudência que fundamenta especificamente aquele ato, considerando o contexto, as variações de nomenclatura, sinônimos, interpretações alternativas e as peculiaridades do caso concreto.
+    Evite atribuir automaticamente o mesmo artigo ou fundamento legal para todos os atos, a menos que seja comprovadamente aplicável a todos os casos individuais.
+    Para cada ato, forneça uma explicação breve e personalizada de como o fundamento legal selecionado se conecta diretamente àquele ato, com base nas especificidades do contexto apresentado.
+    Utilize a tag <DUVIDA> para indicar dúvida sobre a fundamentação apenas após esgotar todas as tentativas de identificação contextual, normativas e jurisprudenciais, detalhando as buscas realizadas e sinalizando a necessidade de revisão manual como último recurso.
+    Não inclua recomendações, análises contextuais amplas ou justificativas extensas; mantenha o foco na fundamentação legal individual e objetiva de cada ato.
+    Organize a informação de modo claro, sucinto e pronta para uso profissional, garantindo que cada ato tenha seu fundamento legal associado e explicado de forma independente.
+  expected_output: >
+    Lista estruturada dos atos obrigatórios, com responsável e fundamentação legal individualizada (artigo/norma/súmula/resolução/jurisprudência e explicação breve).
+    Em caso de dúvida sobre a fundamentação, utilize <DUVIDA> apenas após busca exaustiva, detalhando as buscas realizadas e sinalizando a necessidade de revisão manual como último recurso.
+    Não inclua informações acessórias ou justificativas extensas.
+  context: [assignFormalActResponsiblesTask]
+
+actsPrioritizationAndDeadlinesTask:
+  description: >
+    Para cada ato obrigatório identificado, priorize e indique o prazo de cumprimento e a justificativa técnica de forma individualizada, sem agrupar ou fundir atos, prazos ou justificativas, mesmo que similares.
+    Sempre atribua prioridade, prazo legal ou judicial e justificativa técnica separadamente para cada ato, garantindo que cada item seja tratado de maneira isolada e específica.
+    Nunca consolide prazos, justificativas ou prioridades entre atos distintos.
+    A lista deve ser objetiva, clara, pronta para tomada de decisão imediata e organizada por ordem de prioridade, preservando a individualidade de cada ato.
+    Não inclua recomendações extensas, análises contextuais amplas ou informações acessórias.
+  expected_output: >
+    Lista priorizada dos atos obrigatórios, organizada por ordem de prioridade.
+    Para cada ato: responsável, fundamento legal, prazo de cumprimento e breve justificativa técnica da prioridade, apresentados de forma individualizada, sem fusão entre atos.
+  context: [legalBasisForActsTask]
+
+actsDoubtsAndGapsTask:
+  description: >
+    Identifique, de forma objetiva e direta, dúvidas, lacunas ou impedimentos que dificultem a definição dos atos formais obrigatórios.
+    Para cada ato individualizado, registre separadamente quaisquer dúvidas, lacunas ou impedimentos específicos, sem agrupar ou resumir por categoria.
+    Sempre relacione a providência mínima necessária para esclarecimento ou regularização de cada ato de forma individual, mesmo que semelhantes.
+    Nunca consolide dúvidas ou providências entre atos distintos.
+    Não inclua justificativas extensas, recomendações amplas ou informações acessórias.
+    Organize a lista de modo claro, sucinto e pronta para ação imediata, preservando a rastreabilidade de cada ato e sua respectiva pendência.
+  expected_output: >
+    Lista objetiva dos atos com dúvidas, lacunas ou impedimentos, cada um acompanhado da providência mínima sugerida para superação, apresentados individualmente e sem fusão entre atos.
+  context: [actsPrioritizationAndDeadlinesTask]
+
+
+
+formalActsClientReportBuilder:
+  description: >
+    Consolide de forma eficiente todas as informações previamente geradas (atos obrigatórios, responsáveis, fundamentos legais, prazos/prioridades e dúvidas/providências) em um relatório final, sintético, claro, rastreável e estruturado, pronto para alimentar o agente formatador.
+    O objetivo é fornecer uma visão organizada e aplicável para a execução oportuna dos atos processuais, facilitando a tomada de decisão e o acompanhamento do caso.
+    Ao consolidar o roteiro prático (“roteiro_regularização”), **garanta que sejam trazidas apenas pendências, atos e diligências de natureza estritamente jurídica**. Exclua qualquer ato, pendência, dúvida ou informação de caráter técnico (tais como erros de leitura, falhas de processamento, problemas com formato de arquivo, ou qualquer questão operacional não jurídica).
+    Estruture o relatório em formato de objeto, contendo:
+      - atos_por_categoria: lista de categorias processuais, cada uma com:
+          - categoria: [Especifique o tipo, ex: Processo Civil Comum]
+          - atos: lista de atos obrigatórios (otimizado para processamento, evitando loops redundantes), cada um com:
+              - ato: [Ação específica a ser realizada]
+              - responsável: [Quem executa]
+              - base_legal: [Artigo/lei]
+              - prazo: [Prazo ou prioridade]
+              - dúvidas: [Lista de dúvidas ou providências jurídicas]
+      - pontos_de_atenção: lista de pontos críticos de atenção ou pendências relevantes, cada um como [Ponto específico de atenção jurídica]
+      - roteiro_regularização: lista de pendências para regularização, cada uma com:
+          - pendência: [Pendência jurídica específica]
+          - o_que_fazer: [Ação jurídica detalhada]
+          - responsável: [Quem executa]
+          - base_legal: [Base legal/documental]
+          - prazo: [Prazo para a ação]
+          - observações: [Detalhes, dicas, use <br> para múltiplas linhas; somente informações jurídicas]
+      - dúvidas_providências: lista detalhada de dúvidas ou providências relevantes para o andamento processual (apenas jurídicas)
+      - resumo_final: [Resumo objetivo dos principais atos jurídicos, próximos passos e importância do cumprimento dos prazos]
+      - contato: objeto com:
+          - email: [E-mail de contato]
+          - telefone: [Telefone de contato]
+      - verificado: valor booleano indicando que todas as informações jurídicas relevantes foram verificadas e nenhum campo foi omitido
+      - inconsistências: lista de inconsistências encontradas durante a validação, cada uma como:
+          - campo: [Nome do campo]
+          - motivo: [Descrição do motivo da inconsistência jurídica]
+    Observações de eficiência:
+      - Estruture os dados de entrada antes da validação, normalizando formatos e nomes de campos.
+      - Utilize validação centralizada e list comprehensions para reduzir múltiplos loops.
+      - Registre inconsistências sem interromper o fluxo de processamento.
+      - Prefira processamento incremental para grandes volumes de dados.
+      - Evite fusão desnecessária de linhas para garantir granularidade sem redundância.
+      - Filtre e exclua categoricamente qualquer informação não jurídica dos campos e listas do relatório, **garantindo que o roteiro_regularização traga apenas pendências jurídicas**.
+  expected_output: >
+    Objeto (dict/JSON) com todos os campos acima preenchidos, pronto para alimentar o agente formatador, garantindo que todas as informações necessárias estejam presentes, completas e rastreáveis, com cada ato tratado separadamente e sem fusão de linhas distintas. A validação deve confirmar que todos os atos, pendências e campos são jurídicos; quaisquer dados ausentes ou inconsistentes devem ser claramente indicados em 'inconsistências', e o campo 'verificado' deve refletir o resultado da validação.
+  context: [detectFormalActsTask, assignFormalActResponsiblesTask, legalBasisForActsTask, actsPrioritizationAndDeadlinesTask, actsDoubtsAndGapsTask]
+
+formalActsClientReportFormatter:
+  description: >
+    Analise o processo jurídico identificado e produza um relatório completo, profissional e visualmente agradável para o cliente, seguindo rigorosamente o modelo abaixo:
+
+    # Relatório de Atos Processuais
+
+    ## 📌 Atos Obrigatórios do Processo
+    | Categoria Processual | Ato Obrigatório | Responsável | Fundamento Legal | Prazo/Prioridade | Dúvidas/Providências |
+    |---------------------|-----------------|-------------|------------------|------------------|----------------------|
+    |                     |                 |             |                  |                  |                      |
+
+    ## ⚠️ Pontos de Atenção
+    - [ ] Item 1
+    - [ ] Item 2
+
+    ## 🛠️ Roteiro Prático de Regularização Processual
+    | Pendência Identificada                                     | O que fazer?                                                               | Responsável   | Documento/Fundamento        | Prazo     | Observações                                         |
+    |------------------------------------------------------------|----------------------------------------------------------------------------|---------------|-----------------------------|-----------|-----------------------------------------------------|
+    |                                                            |                                                                            |               |                             |           |                                                     |
+
+    ## ℹ️ Dúvidas ou Providências
+    - Descreva aqui as dúvidas ou providências necessárias.
+
+    ## 📝 Resumo Final
+    Resuma os principais atos identificados, próximos passos e importância do cumprimento dos prazos.
+
+    ## 🤝 Fale Conosco
+    Em caso de dúvidas ou para esclarecimentos adicionais, entre em contato com nossa equipe:
+    - **E-mail:** contato@exemplo.com
+    - **Telefone:** (11) 1234-5678
+
+    **Instruções para execução:**
+    - Use emojis para destacar seções.
+    - Formate tabelas em markdown, preencha todos os campos relevantes.
+    - Utilize listas de verificação para pendências e pontos de atenção.
+    - Inclua a seção “🛠️ Roteiro Prático de Regularização Processual” sempre que houver pendências, dúvidas ou atos a serem regularizados.
+    - Garanta linguagem cordial e acessível ao cliente, mantendo formalidade e clareza.
+    - Preencha a tabela de atos obrigatórios com todas as linhas recebidas, sem resumir ou agrupar itens com campos semelhantes.
+    - Preencha todos os campos específicos de cada ato, garantindo que cada linha represente um ato individualizado.
+    - Inclua lista de dúvidas/providências detalhada. Caso haja observações ou detalhes adicionais, adicione linhas extras conforme necessário.
+    - Valide que todas as informações relevantes foram incluídas e nenhum ato, prazo, fundamento, dúvida, responsável ou observação foi omitido no relatório.
+
+  expected_output: >
+    Relatório completo em markdown, seguindo exatamente o template acima, preenchido com todas as linhas de atos obrigatórios recebidas, cada uma representando um ato individual, com seus respectivos campos preenchidos. Inclua pontos de atenção, roteiro prático, dúvidas/providências detalhadas, resumo final, informações de contato e quaisquer observações adicionais, sempre com formatação agradável ao cliente.
+  context: [formalActsClientReportBuilder]
+
+lineBreakAdjustmentTask:
+  description: >
+    Analise o relatório completo em Markdown para otimizar o layout visual e a legibilidade na geração do PDF.
+    Sua tarefa é:
+    - Examinar todas as seções, tabelas, listas, títulos e blocos longos no Markdown recebido.
+    - Identificar pontos críticos onde quebras de página devem ser inseridas para evitar a divisão de tabelas, títulos ou listas entre páginas na saída em PDF.
+    - Inserir tags de quebra de página (ex: <div class="page-break"></div> ou <!-- pagebreak -->) antes de grandes tabelas, cabeçalhos de seções importantes, ou sempre que necessário para manter a estrutura lógica e a clareza visual.
+    - Ajustar espaçamentos, se necessário, para evitar elementos isolados ou mal posicionados.
+    - Não altere o conteúdo substantivo—apenas ajuste quebras de linha e página para o melhor formato em PDF.
+    - Certifique-se de que cada seção principal (por exemplo, “Pontos de Atenção”, “Roteiro Prático”, “Dúvidas ou Providências”) comece em uma nova página, sempre que possível.
+    - Mantenha uma estrutura Markdown limpa e profissional, pronta para conversão em PDF.
+    - Em caso de dúvida, prefira adicionar uma quebra de página do que omitir.
+    - Antes de retornar, valide que nenhuma tabela principal, título ou lista está dividida de forma visualmente inadequada.
+  expected_output: >
+    Relatório em Markdown com quebras de linha otimizadas e tags de quebra de página inseridas para formatação ideal em PDF.
+    A saída deve preservar todo o conteúdo original, com quebras de página adicionadas para manter a integridade das seções e garantir clareza visual no PDF gerado.
+    Todos os ajustes devem ser rastreáveis e adequados para fluxos automatizados de conversão.
+  context: [formalActsClientReportFormatter]
+  
+formalActsClientReportPDFGenerationTask:
+  description: >
+    Converter o relatório completo de atos processuais, previamente formatado em markdown, em um arquivo 
+    PDF profissional.
+    O PDF deve preservar toda a formatação, incluindo tabelas, listas, emojis e elementos visuais, 
+    garantindo legibilidade, clareza e apresentação adequada para compartilhamento com clientes ou equipes.
+    Certifique-se de que o arquivo final seja fiel ao modelo original e pronto para distribuição.
+
+  expected_output: >
+    Arquivo PDF gerado a partir do markdown fornecido, mantendo toda a estrutura e 
+    formatação visual do relatório.
+
+  context: [formalActsClientReportFormatter]
