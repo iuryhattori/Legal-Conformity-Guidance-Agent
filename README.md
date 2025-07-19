@@ -54,6 +54,7 @@ The goal is to offer legal professionals, law firms, and legal departments an ef
 
 ### 📝 English output example:
 
+![English Output](img/english_output_example.png)
 
 ---
 
