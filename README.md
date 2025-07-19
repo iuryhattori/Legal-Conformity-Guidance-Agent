@@ -34,7 +34,7 @@ The goal is to offer legal professionals, law firms, and legal departments an ef
 > The output in **English** is merely a translation of the Portuguese output, intended solely for understanding and not for official use.
 
 **Portuguese output example:**  
-![Portuguese Output(img/portuguese_output_example.png)
+![Portuguese Output](img/portuguese_output_example.png)
 
 **English output example:**  
 ![English Output](img/english_output_example.png)
