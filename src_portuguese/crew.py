@@ -570,7 +570,6 @@ class Juriscrew():
     def detectFormalActsTask(self)->Task:
         return Task(
             config=self.tasks_config['detectFormalActsTask'],
-            cache = True,
             agent=self.formalActsSpecialist()
         )
     @task # Atribui responsáveis a cada ato formal identificado.
@@ -631,7 +630,6 @@ class Juriscrew():
         return Crew(
             agents=self.agents,
             tasks=self.tasks,
-            verbose=True,
             process=Process.sequential,
         )
 
