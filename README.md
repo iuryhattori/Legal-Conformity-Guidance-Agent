@@ -28,6 +28,17 @@ The goal is to offer legal professionals, law firms, and legal departments an ef
 **English document example:**  
 `inputs/english/english_input.pdf`
 
+### 2. Output
+> **Note:**  
+> The output in **Portuguese** is the original result of the processing, preserving its complete formatting.  
+> The output in **English** is merely a translation of the Portuguese output, intended solely for understanding and not for official use.
+
+**Portuguese output example:**  
+![Portuguese Output(img/portuguese_output_example.png)
+
+**English output example:**  
+![English Output](img/english_output_example.png)
+
 
 ## ⚠️ Important Note About the English Version
 
