@@ -1,0 +1,406 @@
+generalExtraction:
+  description: >
+    Perform a comprehensive, detailed, and scalable extraction of all relevant data from the legal document provided in {info}.
+    Your goal is to identify, categorize, and record exclusively procedural and contextual information of a legal nature, regardless of variation in order, format, language, or location in the text.
+    Use advanced and flexible parsing methods, including:
+      - Recognition by context, synonyms, equivalent terms, abbreviations, and alternative structures.
+      - Intelligent search in different sections of the document (header, body, footer, attachments, tables, footnotes, etc.).
+      - Pattern detection even in varied numeric, textual, or stylistic formats.
+    Always exhaust all attempts to identify legal data, considering:
+      - Multiple occurrences of the same information (record all, indicating context or location).
+      - Fragmented data or data distributed in different parts of the document.
+      - Possible inconsistencies, divergences, or legal contradictions (record and signal all).
+    **Attention!** Never record, signal, or mention doubts, gaps, or pending issues arising from technical failures, such as:
+      - Errors in reading, parsing, or processing the file
+      - Access, format, or integrity problems of the document
+      - Operational difficulties, crashes, or any other non-legal issue
+    Where there is a real absence of specific legal information, use the <DOUBT> tag, but only after exhausting searches for term variations, positions, and forms of legal presentation.
+    Never use <DOUBT> to indicate any scenario of technical failure, reading error, access problem, or document processing issue.
+    Never mark <DOUBT> merely for the absence of the "exact keyword" or by expectation of fixed location; always investigate legal alternatives.
+    Structure the report in standardized and expandable topics, including (but not limited to):
+      - Case identification
+      - Parties involved
+      - Legal representatives
+      - Legal grounds and claims
+      - Decisions and orders
+      - Procedural movements
+      - Relevant dates and deadlines
+      - Attached/referenced documents
+      - Legal ambiguities, doubts, or points of attention
+      - Final comments or contextual legal observations
+    Remain open to including new topics as emerging standards or specific case needs require, as long as they are of a legal nature.
+    Organize the information clearly, objectively, and in detail, with explicit signaling of doubts, gaps, multiple occurrences, or legal inconsistencies.
+    **Never include, record, or cite doubts, pending issues, or observations of a technical nature in the report.**
+
+  expected_output: >
+    Structured, standardized, and expandable textual report containing exclusively legal information extracted from {info}, organized by relevant topics for legal analysis.
+    For each topic:
+      - Present all identified legal occurrences, indicating context/location when applicable.
+      - Clearly signal doubts, gaps, ambiguities, or legal inconsistencies, using <DOUBT> only after careful and contextual legal search.
+      - **Never use <DOUBT> to indicate errors, failures, doubts, or technical difficulties, nor reading or processing issues.**
+      - Add new topics whenever emerging legal standards or document specifics so require.
+    The report must be clear, detailed, scalable, and suitable for specialized legal analysis, future automations, and integration with other agents or legal systems.
+
+contextExplainerTask:
+  description: >
+    Thoroughly analyze the structured legal document presented, based on the extracted fields.
+    Clearly and didactically explain:
+      - The nature of the document (type, kind, and purpose)
+      - The relevant factual and historical context of the case
+      - The parties involved (who is suing whom and their respective roles)
+      - The reasons and grounds for the case (main claim and cause of action)
+      - The legal articles and normative provisions supporting or challenging the case, explaining their application to the concrete situation
+    Review all extracted fields, regardless of order, format, or language used, exhausting attempts at identification by context, synonyms, or alternative presentation before declaring absence of data.
+    Signal and substantiate any doubts, gaps, or inconsistencies found, detailing which data are missing and what identification attempts were made.
+    Always support your explanations by citing examples or excerpts from the structured report.
+    Suggest points that can be further analyzed by other specialist agents, if necessary.
+
+  expected_output: >
+    Detailed textual opinion, structured in clear sections, covering:
+      - Nature of the document, with reasoning extracted from the report
+      - Case context, including relevant history and main facts, referencing analyzed fields or excerpts
+      - Identification of parties and their roles, substantiated by report examples
+      - Reasons and grounds for the case, citing applicable legal provisions and their explanation
+      - List of legal articles or normative provisions mentioned, with a brief explanation of the relevance of each
+      - Doubts, gaps, or insufficient information, with details of identification attempts made
+      - Suggestions for further analysis by specialist agents, if needed
+    Avoid generic responses on absence of data; only declare absence if the field is effectively empty or marked as <DOUBT> after exhausting all identification attempts.
+    The opinion must be clear, didactic, technically reasoned, and accessible even to those without legal training.
+
+  context: [generalExtraction]
+
+deadlineAnalysis:
+  description: >
+    Receive as input the structured report and efficiently, robustly, and scalably analyze all aspects related to procedural deadlines.
+    Thoroughly evaluate all relevant extracted fields, regardless of order, format, language, or location, using contextual methods, synonyms, and presentation variations.
+    For each piece of information on deadlines, dates, procedural acts, and their fulfillment:
+      - Identify, classify, and relate legal, judicial, and conventional deadlines, as well as their respective start and end points.
+      - Point out situations of compliance, non-compliance, risks of preclusion, untimeliness, and other critical situations.
+      - Explicitly state doubts, gaps, or ambiguities, detailing the identification attempts made, and reference the <DOUBT> field only after exhausting all possibilities of contextual inference.
+      - In case of multiple occurrences or distributed data, consolidate and highlight differences, inconsistencies, or overlaps.
+      - Never use standard responses regarding absence of data without a thorough check of all extracted content.
+      - Justify each finding, citing topics, examples, or excerpts from the structured report.
+    The analysis must be clear, objective, traceable, and suitable for supporting legal decisions, subsequent automation, or review by other agents.
+    Do not attest or conclude on the overall regularity of deadlines—just expose the facts, risks, doubts, inconsistencies, or critical situations detected.
+  expected_output: >
+    Structured and reasoned textual report covering:
+      - Details of all fields and topics related to procedural deadlines, including multiple occurrences and any inconsistencies.
+      - Explanation of doubts, gaps, or absence of data, detailing the verification and identification process.
+      - Guidance or recommendations for complementation or refinement, if necessary.
+    The report must be objective, scalable, reusable in automation pipelines, and suitable for both technical review and communication with non-specialist clients.
+  context: [generalExtraction]
+
+
+nullityAnalysis:
+  description: >
+    Receive as input the structured report generated by the generalExtractor and efficiently, robustly, and scalably analyze all aspects related to the identification of possible procedural nullities.
+    Thoroughly evaluate all relevant extracted fields, regardless of order, format, language, or location, using contextual methods, synonyms, and presentation variations.
+    For each piece of information on nullities, procedural defects, formal or substantial irregularities:
+      - Identify, classify, and detail all situations that may constitute nullity, describing the type, origin, context, and possible impacts, always substantiating based on fields, examples, or excerpts from the structured report.
+      - Relate each possible nullity to the relevant legal provisions or procedural principles, where possible.
+      - Explicitly state doubts, gaps, or ambiguities, detailing the identification attempts made, and use the <DOUBT> field only after exhausting all contextual and alternative hypotheses.
+      - In case of multiple occurrences, fragmented or distributed data, consolidate and highlight differences, inconsistencies, or overlaps.
+      - Never use standard responses regarding absence of data without a thorough check of all extracted content.
+      - Justify each identification, citing topics, examples, or excerpts from the structured report.
+    The analysis must be clear, objective, traceable, and provide maximum detail to precisely and completely support the subsequent assessment of procedural regularity.
+    Do not conclude or attest to the overall regularity or absence of nullities—just expose facts, risks, doubts, inconsistencies, or critical situations detected, allowing later assessment and reasoning by another agent.
+  expected_output: >
+    Structured and reasoned textual report covering:
+      - Details of all fields and topics related to procedural nullities, including multiple occurrences, doubts, inconsistencies, or gaps.
+      - Explanation of the verification and identification process, detailing doubts or absence of data.
+      - Guidance or recommendations for complementation or refinement, if necessary.
+    The report must be objective, scalable, reusable in automation pipelines, and suitable for both technical review and communication with other agents or specialists.
+  context: [generalExtraction]
+
+ambiguityAnalysis: 
+  description: >
+    Receive as input the structured report generated by the generalExtractor and efficiently, robustly, and scalably analyze all aspects related to the identification of any textual ambiguities.
+    Thoroughly evaluate all extracted fields and topics, regardless of order, format, language, or location, using contextual methods, synonyms, and presentation variations.
+    For each piece of information or excerpt presenting potential ambiguity:
+      - Identify, classify, and detail all situations of textual ambiguity, describing the excerpt, context, nature of ambiguity, and possible impacts or interpretative risks, always substantiating based on fields, examples, or excerpts from the structured report.
+      - Explain why the excerpt is considered ambiguous, explicitly stating doubts, gaps, or ambiguities, and detailing the identification and clarification attempts made. Use the <DOUBT> field only after exhausting all contextual and alternative hypotheses.
+      - Suggest, whenever possible, alternative wording or improvement for greater text clarity.
+      - In case of multiple occurrences, fragmentations, or distributed ambiguities, consolidate and highlight differences, inconsistencies, or overlaps.
+      - Never use standard responses regarding absence of data without a thorough check of the entire extracted report.
+      - Justify each identification, citing topics, examples, or excerpts from the structured report.
+    The analysis must be clear, objective, traceable, and provide maximum detail to precisely and completely support later assessment of textual regularity.
+    Do not conclude or attest to the overall regularity or absence of ambiguities—just expose facts, risks, doubts, inconsistencies, or critical situations detected, allowing later assessment and reasoning by another agent.
+  expected_output: >
+    Structured and reasoned textual report covering:
+      - Details of all fields and topics related to textual ambiguities, including multiple occurrences, doubts, inconsistencies, or gaps.
+      - Explanation of the verification and identification process, detailing doubts or absence of data.
+      - Guidance or recommendations for complementation, clarification, or refinement, if necessary.
+    The report must be objective, scalable, reusable in automation pipelines, and suitable for both technical review and communication with other agents or specialists.
+  context: [generalExtraction]
+  
+analyzeIrregularities:
+  description: >
+    Receive as input the structured report generated by the generalExtractor and efficiently, robustly, and scalably analyze all aspects related to the identification of possible formal and territorial jurisdiction irregularities in legal documents.
+    Thoroughly evaluate all relevant extracted fields and topics, regardless of order, format, language, or location, using contextual methods, synonyms, and presentation variations.
+    For each piece of information associated with mandatory formalities and territorial jurisdiction:
+      - Identify, classify, and detail all situations that may constitute formal or jurisdictional irregularity, describing the type, origin, context, and possible impacts, always substantiating based on fields, examples, or excerpts from the structured report.
+      - Relate each possible irregularity to legal provisions, technical standards, or applicable jurisdiction criteria, where possible.
+      - Explicitly state doubts, gaps, or ambiguities, detailing the identification attempts made, and use the <DOUBT> field only after exhausting all contextual and alternative hypotheses.
+      - In case of multiple occurrences, fragmented or distributed data, consolidate and highlight differences, inconsistencies, or overlaps.
+      - Never use standard responses regarding absence of data without a thorough check of all extracted content.
+      - Justify each identification, citing topics, examples, or excerpts from the structured report.
+    The analysis must be clear, objective, traceable, and provide maximum detail to precisely and completely support later assessment of regularity of formalities and territorial jurisdiction by another agent.
+    Do not conclude or attest to the overall regularity or absence of irregularities—just expose facts, risks, doubts, inconsistencies, or critical situations detected, allowing later assessment and reasoning by another agent.
+  expected_output: >
+    Structured and reasoned textual report covering:
+      - Details of all fields and topics related to formal and territorial irregularities, including multiple occurrences, doubts, inconsistencies, or gaps.
+      - Explanation of the verification and identification process, detailing doubts, absence, or insufficiency of data.
+      - Guidance or recommendations for complementation, clarification, or refinement, if necessary.
+    The report must be objective, scalable, reusable in automation pipelines, and suitable for both technical review and communication with other agents or specialists.
+  context: [generalExtraction]
+
+synthesizeProcessualInformation:
+  description: >
+    Perform a structured and exhaustive synthesis of procedural information, consolidating multiple specialized technical reports (deadlines, nullities, irregularities, ambiguities, context).
+    Your task is to:
+      - Consolidate all findings, organizing by relevant thematic category.
+      - Eliminate duplicities and redundancies, grouping similar information and retaining all relevant variations (do not discard minority findings).
+      - Highlight convergences and divergences between reports, citing examples and indicating the original context of each piece of information.
+      - Emphasize doubts, inconsistencies, or informational gaps, clearly indicating the need for clarification or complementation, **but exclude doubts, inconsistencies, or gaps of a technical nature, such as reading errors, file access problems, processing failures, or other non-legal difficulties.**
+      - Use checklist and cross-reference techniques to ensure no relevant topic, minority data, or divergent information is omitted.
+      - Structure the synthesis by topics/categories, with subtopics when necessary, to facilitate consultation and avoid excessively long lists.
+      - Organize content objectively, clearly, and logically, prioritizing efficiency in presentation and ease of reuse in automated flows or human review.
+      - Avoid analyses of regularity or legal recommendations, focusing exclusively on data integration.
+  expected_output: >
+    Structured textual report by procedural topics/categories (e.g., deadlines, nullities, irregularities, ambiguities, context).
+    For each category:
+      - Present all consolidated findings, grouping similar information and preserving relevant variations.
+      - Highlight convergences and divergences, citing examples and context of origin.
+      - List identified doubts, inconsistencies, or gaps, clearly signaling pending issues and needs for clarification, **but never include doubts, inconsistencies, or gaps of a technical nature (e.g., reading error, processing failure, file problem, operational difficulties).**
+      - Use subtopics to organize large volumes of data and facilitate consultation.
+      - Maintain neutral, clear, traceable presentation with no legal recommendations.
+    The report must be complete, accurate, efficient, and suitable to support future analyses, automatic reviews, or integration with other agents/systems, **ensuring that only legal doubts, inconsistencies, or gaps are presented.**
+  context: [contextExplainerTask, deadlineAnalysis, nullityAnalysis, analyzeIrregularities, ambiguityAnalysis]
+
+legalGroundsAnalysisTask:
+  description: >
+    Identify and explain, objectively and in detail, the main legal, doctrinal, and case law grounds relevant to the concrete case, based on the consolidated procedural information.
+    Your task is to:
+    - Quickly locate relevant legal provisions, case law precedents, and doctrine for each analyzed procedural category (e.g., deadlines, nullities, irregularities, ambiguities, context).
+    - Technically and concisely explain how each legal ground applies to the identified facts.
+    - Highlight divergent interpretations or relevant controversies only where there is direct practical impact.
+    - Cite law articles, summaries, case law, or authors whenever possible, prioritizing clarity and traceability.
+    - Signal doubts or normative gaps only when relevant to the reasoning.
+    - Structure the report by procedural topics/categories, favoring quick reference.
+    The result should be a clear, synthetic, and reasoned mapping of applicable legal grounds.
+  expected_output: >
+    Structured textual report by procedural topics/categories (e.g., deadlines, nullities, irregularities, ambiguities, context), containing:
+    - Objective list of legal provisions, precedents, and doctrine, with brief technical explanation of their application to the case.
+    - Direct indication of relevant interpretations or gaps that impact the reasoning.
+    The report must be concise, traceable, and immediately useful to support legal decisions.
+  context: [synthesizeProcessualInformation]
+
+attestProcessualRegularity:
+  description: >
+    Expressly and objectively attest to the regularity or irregularity of the consolidated procedural aspects, covering deadlines, nullities, irregularities, ambiguities, and context.
+    Your task is to:
+    - Examine all presented data and, for each procedural category (e.g., deadlines, nullities, irregularities, ambiguities, context), clearly and reasonedly attest whether it is regular or irregular.
+    - Succinctly reference the legal grounds used, citing only the relevant legal provision, case law, or doctrine previously identified (without repeating detailed explanations).
+    - In case of irregularity, indicate the practical impact and need for correction.
+    - Explicitly state doubts, limitations of information, or points that do not allow for a definitive conclusion.
+    - Maintain a technical, objective, synthetic, and traceable approach.
+    - Structure the conclusions by topics/categories, facilitating integration with other analyses and reports.
+    The attestation must be precise and concise, allowing quick understanding of the procedural overview and serving as a reference for syntheses, recommendations, or strategic decisions.
+  expected_output: >
+    Structured textual report by procedural topics/categories (e.g., deadlines, nullities, irregularities, ambiguities, context).
+    For each category:
+    - Express attestation of regularity or irregularity, succinctly referencing the legal grounds (e.g., "Regular, according to art. 218, CPC").
+    - Indicate the practical impact in case of irregularity.
+    - Objective signaling of doubts, gaps, or limitations for a definitive conclusion.
+    The report must be objective, concise, and immediately useful to support legal decisions and recommendations.
+  context: [synthesizeProcessualInformation, legalGroundsAnalysisTask]
+
+detectFormalActsTask:
+  description: >
+    Exclusively analyze the consolidated procedural data received and objectively and directly identify only the mandatory legal formal acts that need to be performed for each procedural category (e.g., deadlines, nullities, irregularities, ambiguities, context).
+    List exclusively mandatory legal formal acts of the case, including:
+      - Typical acts of the procedure and also specific acts arising from the peculiarities of the case, claims, defenses, decisions, required evidence, clarifications, and unique legal steps of this case.
+      - Generate an item for each diligence, provision, clarification, or unique legal procedural step identified, even if similar.
+      - Never summarize, group, or consolidate distinct acts into a single item. Each act, provision, or legal diligence must appear individually, with its unique description.
+    **Never include, under any circumstance, acts, diligences, provisions, or doubts of a technical, administrative, or operational nature, such as file reading errors, processing failures, formatting problems, or any non-legal issue.**
+    Do not explain, reason, indicate responsibles, deadlines, or justifications. Only list the required legal acts, clearly, succinctly, and without redundancies.
+    Ignore any information that does not strictly correspond to a mandatory legal formal act. Do not include recommendations, contextual analyses, optional acts, or technical pending issues.
+    Focus on delivering the most detailed, precise, and concise list of mandatory legal formal acts, for immediate use in subsequent workflow steps.
+
+  expected_output: >
+    Objective, detailed, and structured list of mandatory legal formal acts, organized by procedural category.
+    Do not include responsibles, deadlines, grounds, explanations, or any technical, administrative, or operational information.
+    **Ensure that only mandatory legal acts are present in the list.**
+  context: [attestProcessualRegularity, synthesizeProcessualInformation]
+
+assignFormalActResponsiblesTask:
+  description: >
+    Receive exclusively the list of mandatory formal acts already identified and, for each individual act, objectively assign the principal responsible for its execution (e.g., plaintiff, defendant, clerk, expert, etc).
+    Never assign the responsible by grouped category; always relate the responsible to each specific act, even if there are similar acts in the same procedural category.
+    Ensure similar acts with different responsibles are handled separately and listed individually.
+    Signal doubts about the responsible only if it is truly impossible to determine after exhaustive contextual analysis, never by grouping or generic pattern.
+    Do not add explanations, justifications, deadlines, or grounds.
+    Ignore any information other than the act and its respective responsible.
+    Organize output by individual act, keeping the format clear and ready for automations and future expansion (allowing multiple occurrences per category and alternative responsibles, if necessary).
+    The goal is to provide an objective, precise, scalable, and immediately usable list for subsequent workflow steps.
+  expected_output: >
+    Structured list of mandatory formal acts, with the principal responsible assigned to each individual act, without grouping by category. Do not include explanations, deadlines, grounds, or other details besides the act name and responsible. Use <DOUBT> only when strictly necessary.
+  context: [detectFormalActsTask]
+
+legalBasisForActsTask:
+  description: >
+    For each mandatory formal act identified and assigned, conduct an individual and exhaustive search for the legal provision, summary, resolution, or case law specifically grounding that act, considering context, nomenclature variations, synonyms, alternative interpretations, and case specifics.
+    Avoid automatically assigning the same article or legal ground to all acts, unless it is demonstrably applicable to all individual cases.
+    For each act, provide a brief and personalized explanation of how the selected legal ground connects directly to that act, based on the specifics of the presented context.
+    Use the <DOUBT> tag to indicate doubt about the legal basis only after exhausting all contextual, normative, and case law identification attempts, detailing the searches conducted and signaling the need for manual review as a last resort.
+    Do not include recommendations, broad contextual analyses, or extensive justifications; keep the focus on the individual and objective legal basis of each act.
+    Organize the information clearly, succinctly, and ready for professional use, guaranteeing each act has its associated legal basis and brief explanation independently.
+  expected_output: >
+    Structured list of mandatory acts, with responsible and individualized legal basis (article/norm/summary/resolution/case law and brief explanation).
+    If in doubt about the legal basis, use <DOUBT> only after exhaustive search, detailing the searches made and signaling the need for manual review as a last resort.
+    Do not include accessory information or extensive justifications.
+  context: [assignFormalActResponsiblesTask]
+
+actsPrioritizationAndDeadlinesTask:
+  description: >
+    For each mandatory act identified, prioritize and indicate the deadline for compliance and the technical justification individually, without grouping or merging acts, deadlines, or justifications, even if similar.
+    Always assign priority, legal or judicial deadline, and technical justification separately for each act, ensuring each item is treated in an isolated and specific manner.
+    Never consolidate deadlines, justifications, or priorities between distinct acts.
+    The list must be objective, clear, ready for immediate decision-making, and organized by priority order, preserving the individuality of each act.
+    Do not include extensive recommendations, broad contextual analyses, or accessory information.
+  expected_output: >
+    Prioritized list of mandatory acts, organized by priority order.
+    For each act: responsible, legal basis, deadline for compliance, and brief technical justification of priority, presented individually, without merging between acts.
+  context: [legalBasisForActsTask]
+
+actsDoubtsAndGapsTask:
+  description: >
+    Objectively and directly identify doubts, gaps, or impediments that hinder the definition of mandatory formal acts.
+    For each individualized act, separately record any specific doubts, gaps, or impediments, without grouping or summarizing by category.
+    Always relate the minimum action needed for clarification or regularization of each act individually, even if similar.
+    Never consolidate doubts or actions between distinct acts.
+    Do not include extensive justifications, broad recommendations, or accessory information.
+    Organize the list clearly, succinctly, and ready for immediate action, preserving the traceability of each act and its respective pending issue.
+  expected_output: >
+    Objective list of acts with doubts, gaps, or impediments, each accompanied by the minimum suggested action for overcoming, presented individually and without merging between acts.
+  context: [actsPrioritizationAndDeadlinesTask]
+
+formalActsClientReportBuilder:
+  description: >
+    Efficiently consolidate all previously generated information (mandatory acts, responsibles, legal basis, deadlines/priorities, and doubts/actions) into a final, synthetic, clear, traceable, and structured report, ready to feed the formatter agent.
+    The goal is to provide an organized and applicable overview for timely execution of procedural acts, facilitating decision-making and case tracking.
+    When consolidating the practical roadmap (“regularization_roadmap”), **ensure only strictly legal pending issues, acts, and diligences are included**. Exclude any act, pending issue, doubt, or information of a technical nature (such as reading errors, processing failures, file format problems, or any non-legal operational issue).
+    Structure the report as an object, containing:
+      - acts_by_category: list of procedural categories, each with:
+          - category: [Specify type, e.g., Ordinary Civil Procedure]
+          - acts: list of mandatory acts (optimized for processing, avoiding redundant loops), each with:
+              - act: [Specific action to be performed]
+              - responsible: [Executor]
+              - legal_basis: [Article/law]
+              - deadline: [Deadline or priority]
+              - doubts: [List of legal doubts or required actions]
+      - points_of_attention: list of critical points or relevant pending issues, each as [Specific legal point of attention]
+      - regularization_roadmap: list of pending issues for regularization, each with:
+          - pending_issue: [Specific legal pending issue]
+          - what_to_do: [Detailed legal action]
+          - responsible: [Executor]
+          - legal_basis: [Legal/documentary basis]
+          - deadline: [Deadline for the action]
+          - remarks: [Details, tips, use <br> for multiple lines; only legal information]
+      - doubts_actions: detailed list of doubts or actions relevant to case progress (legal only)
+      - final_summary: [Objective summary of main legal acts, next steps, and importance of meeting deadlines]
+      - contact: object with:
+          - email: [Contact email]
+          - phone: [Contact phone]
+      - verified: boolean indicating that all relevant legal information has been checked and no field omitted
+      - inconsistencies: list of inconsistencies found during validation, each as:
+          - field: [Field name]
+          - reason: [Description of the reason for the legal inconsistency]
+    Efficiency notes:
+      - Structure input data before validation, normalizing formats and field names.
+      - Use centralized validation and list comprehensions to reduce multiple loops.
+      - Record inconsistencies without interrupting processing flow.
+      - Prefer incremental processing for large data volumes.
+      - Avoid unnecessary line merging to guarantee granularity without redundancy.
+      - Categorically filter and exclude any non-legal information from report fields and lists, **ensuring the regularization_roadmap includes only legal pending issues**.
+  expected_output: >
+    Object (dict/JSON) with all fields above filled, ready to feed the formatter agent, ensuring all necessary information is present, complete, and traceable, with each act treated separately and without merging distinct lines. Validation must confirm all acts, pending issues, and fields are legal; any missing or inconsistent data must be clearly indicated in 'inconsistencies', and the 'verified' field must reflect the validation result.
+  context: [detectFormalActsTask, assignFormalActResponsiblesTask, legalBasisForActsTask, actsPrioritizationAndDeadlinesTask, actsDoubtsAndGapsTask]
+
+formalActsClientReportFormatter:
+  description: >
+    Analyze the identified legal case and produce a complete, professional, and visually appealing report for the client, strictly following the template below:
+
+    # Procedural Acts Report
+
+    ## 📌 Mandatory Procedural Acts
+    | Procedural Category | Mandatory Act | Responsible | Legal Basis | Deadline/Priority | Doubts/Actions |
+    |--------------------|---------------|-------------|-------------|------------------|----------------|
+    |                    |               |             |             |                  |                |
+
+    ## ⚠️ Points of Attention
+    - [ ] Item 1
+    - [ ] Item 2
+
+    ## 🛠️ Practical Roadmap for Procedural Regularization
+    | Identified Pending Issue                                  | What to do?                                                            | Responsible   | Document/Legal Basis           | Deadline   | Remarks                                         |
+    |-----------------------------------------------------------|-----------------------------------------------------------------------|---------------|-------------------------------|------------|--------------------------------------------------|
+    |                                                           |                                                                       |               |                               |            |                                                  |
+
+    ## ℹ️ Doubts or Actions
+    - Describe here the required doubts or actions.
+
+    ## 📝 Final Summary
+    Summarize the main identified acts, next steps, and the importance of meeting deadlines.
+
+    ## 🤝 Contact Us
+    In case of questions or for further clarification, contact our team:
+    - **Email:** contato@exemplo.com
+    - **Phone:** (11) 1234-5678
+
+    **Execution instructions:**
+    - Use emojis to highlight sections.
+    - Format tables in markdown, fill in all relevant fields.
+    - Use checklists for pending issues and points of attention.
+    - Always include the section “🛠️ Practical Roadmap for Procedural Regularization” whenever there are pending issues, doubts, or acts to be regularized.
+    - Ensure language is cordial and accessible to the client, maintaining formality and clarity.
+    - Fill the mandatory acts table with all received rows, without summarizing or grouping items with similar fields.
+    - Fill all specific fields of each act, ensuring each row represents an individualized act.
+    - Include a detailed list of doubts/actions. If there are additional remarks or details, add extra lines as needed.
+    - Validate that all relevant information has been included and no act, deadline, legal basis, doubt, responsible, or remark was omitted from the report.
+
+  expected_output: >
+    Complete markdown report, following exactly the template above, filled with all received rows of mandatory acts, each representing an individual act with its respective fields filled. Include points of attention, practical roadmap, detailed doubts/actions, final summary, contact information, and any additional remarks, always with a client-friendly format.
+  context: [formalActsClientReportBuilder]
+
+lineBreakAdjustmentTask:
+  description: >
+    Analyze the complete Markdown report to optimize visual layout and readability in PDF generation.
+    Your task is to:
+    - Examine all sections, tables, lists, titles, and long blocks in the received Markdown.
+    - Identify critical points where page breaks should be inserted to avoid splitting tables, titles, or lists between pages in the PDF output.
+    - Insert page break tags (e.g., <div class="page-break"></div> or <!-- pagebreak -->) before large tables, important section headers, or whenever necessary to maintain logical structure and visual clarity.
+    - Adjust spacing as needed to avoid isolated or poorly positioned elements.
+    - Do not alter substantive content—only adjust line and page breaks for best PDF format.
+    - Ensure each main section (e.g., “Points of Attention”, “Practical Roadmap”, “Doubts or Actions”) starts on a new page whenever possible.
+    - Keep the Markdown structure clean and professional, ready for PDF conversion.
+    - If in doubt, prefer to add a page break rather than omit it.
+    - Before returning, validate that no main table, title, or list is visually split inappropriately.
+  expected_output: >
+    Markdown report with optimized line breaks and page break tags inserted for ideal PDF formatting.
+    Output must preserve all original content, with page breaks added to maintain section integrity and ensure visual clarity in the generated PDF.
+    All adjustments must be traceable and suitable for automated conversion flows.
+  context: [formalActsClientReportFormatter]
+  
+formalActsClientReportPDFGenerationTask:
+  description: >
+    Convert the complete procedural acts report, previously formatted in markdown, into a professional PDF file.
+    The PDF must preserve all formatting, including tables, lists, emojis, and visual elements,
+    ensuring readability, clarity, and proper presentation for sharing with clients or teams.
+    Make sure the final file is faithful to the original template and ready for distribution.
+
+  expected_output: >
+    PDF file generated from the provided markdown, maintaining all structure and
+    visual formatting of the report.
+
+  context: [formalActsClientReportFormatter]
