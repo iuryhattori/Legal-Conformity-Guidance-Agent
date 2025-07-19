@@ -35,12 +35,13 @@ The goal is to offer legal professionals, law firms, and legal departments an ef
 ---
 
 ### 2. Output
-> **Note:**  
+> ⚠️ **Important:**  
 > The output in **Portuguese** is the original result of the processing, preserving its complete formatting.  
 > The output in **English** is merely a translation of the Portuguese output, intended solely for understanding and not for official use.
 
 
-**Portuguese output example:**  
+### 📝 Portuguese Output Example
+
 ![Portuguese Output](img/portuguese_output_example.png)
 
 ---
@@ -51,10 +52,11 @@ The goal is to offer legal professionals, law firms, and legal departments an ef
 
 
 
-**English output example:**  
+### 📝 English output example:
 ![English Output](img/english_output_example.png)
 
 ---
+
 > 📄 **[Full English Output – Click here to access the complete PDF!](outputs/english/english_output.pdf)**
 
 ---
