@@ -46,7 +46,7 @@ The goal is to offer legal professionals, law firms, and legal departments an ef
 
 ---
 
-> 📄 **[Full Portuguese Output – Click here to access the full PDF!](outputs/portuguese/portuguese_output.pdf)**
+> 📄 **[Full Portuguese Output – Click here to access the full PDF!](outputs/portuguese/Portuguese_Output.pdf)**
 
 ---
 
