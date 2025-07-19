@@ -38,19 +38,27 @@ The goal is to offer legal professionals, law firms, and legal departments an ef
 > **Note:**  
 > The output in **Portuguese** is the original result of the processing, preserving its complete formatting.  
 > The output in **English** is merely a translation of the Portuguese output, intended solely for understanding and not for official use.
----
+
 
 **Portuguese output example:**  
 ![Portuguese Output](img/portuguese_output_example.png)
-[🔗 Full Portuguese output](outputs/portuguese/portuguese_output.pdf)
 
 ---
+
+> 📄 **[Full Portuguese Output – Click here to access the full PDF!](outputs/portuguese/portuguese_output.pdf)**
+
+---
+
+
 
 **English output example:**  
 ![English Output](img/english_output_example.png)
-[🔗 Full English output](outputs/english/english_output.pdf)
 
 ---
+> 📄 **[Full English Output – Click here to access the complete PDF!](outputs/english/english_output.pdf)**
+
+---
+
 
 ## ⚠️ Important Note About the English Version
 
