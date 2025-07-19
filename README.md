@@ -9,6 +9,8 @@ Using a sequence of specialized tasks, the project identifies, classifies, and o
 
 The goal is to offer legal professionals, law firms, and legal departments an efficient, clear, and accessible tool to ensure compliance and agility in case management.
 
+---
+
 ## ⚙️ Workflow
 
 1. Extraction of legal data from the document.
@@ -18,27 +20,37 @@ The goal is to offer legal professionals, law firms, and legal departments an ef
 5. Generation of a practical roadmap: list of mandatory acts, responsible parties, legal grounds, and deadlines to regularize the document.
 6. Creation of the final report in PDF, ready for review or delivery to the client.
 
+---
+
 ## 📂 Example of Use
 
 ### 1. Input
 
 **Portuguese document example:**  
-`inputs/portuguese/portuguese_input.pdf`
+[inputs/portuguese/portuguese_input.pdf](inputs/portuguese/portuguese_input.pdf)
 
 **English document example:**  
-`inputs/english/english_input.pdf`
+[inputs/english/english_input.pdf](inputs/english/english_input.pdf)
+
+---
 
 ### 2. Output
 > **Note:**  
 > The output in **Portuguese** is the original result of the processing, preserving its complete formatting.  
 > The output in **English** is merely a translation of the Portuguese output, intended solely for understanding and not for official use.
+---
 
 **Portuguese output example:**  
 ![Portuguese Output](img/portuguese_output_example.png)
+[🔗 Full Portuguese output](outputs/portuguese/portuguese_output.pdf)
+
+---
 
 **English output example:**  
 ![English Output](img/english_output_example.png)
+[🔗 Full English output](outputs/english/english_output.pdf)
 
+---
 
 ## ⚠️ Important Note About the English Version
 
